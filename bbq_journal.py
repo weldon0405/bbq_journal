@@ -1,7 +1,12 @@
 import datetime
+import logging
+from time import strftime
 
 from colorama import Fore, Back, Style
 
+
+now = datetime.datetime.now().timetuple()
+tm_stamp = strftime("%Y_%m_%d", now)
 
 
 class BbqJournal:
@@ -25,7 +30,6 @@ class BbqJournal:
 
         return journal_entry
 
-# new_entry = None
 
 def create_journal():
     title = input(Fore.CYAN + "\nPlease enter a title for this journal entry: "
@@ -39,26 +43,40 @@ def create_journal():
     weather = input(Fore.CYAN + Style.NORMAL + "Enter weather notes: "
                     + Style.BRIGHT + Fore.MAGENTA)
     new_entry = BbqJournal(title, meat, recipe, weather)
+    logging.info(f'New Journal Entry, {new_entry.title} Created')
     print(new_entry)
     return new_entry
 
+def app_start():
+    print(Fore.GREEN + Style.BRIGHT +
+            "\n\n######################### BBQ JOURNAL #########################\n\n" +
+            Fore.RED + "Welcome to the BBQ Journal. This is your place to document " +
+            "your\ncurrent cooks in pursuit of that perfect smoked meat flavor.\n"
+            )
+
+    user_start = input(Fore.GREEN + Style.NORMAL + "\n\nTo create a new journal " +
+                        "entry type " +
+                        Fore.WHITE + Style.BRIGHT + "NEW" +
+                        Fore.GREEN + Style.NORMAL + ", otherwise press " +
+                        Fore.WHITE + Style.BRIGHT + "ENTER" +
+                        Fore.GREEN + Style.NORMAL + ".\n\n")
+
+    if user_start.lower().startswith("n"):
+        create_journal()
+    else:
+        pass
 
 
-print(Fore.GREEN + Style.BRIGHT +
-        "\n\n######################### BBQ JOURNAL #########################\n\n" +
-        Fore.RED + "Welcome to the BBQ Journal. This is your place to document " +
-        "your\ncurrent cooks in pursuit of that perfect smoked meat flavor.\n"
-        )
+def main():
+    logging.basicConfig(filename=f'./logs/journal_log_{tm_stamp}.log',
+                        format='%(asctime)s | %(message)s',
+                        datefmt='%Y%m%d_%H:%M:%S',
+                        level=logging.DEBUG
+                        )
+    logging.info('App Started')
+    app_start()
+    logging.info('App Finished')
 
-user_start = input(Fore.GREEN + Style.NORMAL + "\n\nTo create a new journal " +
-                    "entry type " +
-                    Fore.WHITE + Style.BRIGHT + "NEW" +
-                    Fore.GREEN + Style.NORMAL + ", otherwise press " +
-                    Fore.WHITE + Style.BRIGHT + "ENTER" +
-                    Fore.GREEN + Style.NORMAL + ".\n\n")
 
-if user_start.lower() == "new":
-    create_journal()
-else:
-    pass
-    
+if __name__ == '__main__':
+    main()

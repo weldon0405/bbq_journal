@@ -1,0 +1,82 @@
+-- ---
+-- Globals
+-- ---
+
+-- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+-- SET FOREIGN_KEY_CHECKS=0;
+
+-- ---
+-- Table 'Journal'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS `Journal`;
+		
+CREATE TABLE `Journal` (
+  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
+  `title` MEDIUMTEXT NOT NULL DEFAULT 'NEW_TITLE',
+  `day` DATE NOT NULL DEFAULT 'NULL',
+  `notes` MEDIUMTEXT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- ---
+-- Table 'Recipe'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS `Recipe`;
+		
+CREATE TABLE `Recipe` (
+  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  `title` MEDIUMTEXT NOT NULL DEFAULT 'name',
+  `meat` MEDIUMTEXT NOT NULL DEFAULT 'NULL',
+  `cooker` MEDIUMTEXT NULL DEFAULT NULL,
+  `temp` INT NULL DEFAULT NULL,
+  `cook_time` TIME NULL DEFAULT NULL,
+  `rub` MEDIUMTEXT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`, `rub`, `title`)
+);
+
+-- ---
+-- Table 'RubRecipe'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS `RubRecipe`;
+		
+CREATE TABLE `RubRecipe` (
+  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  `salt` INTEGER NULL DEFAULT NULL,
+  `sugar` INTEGER NULL DEFAULT NULL,
+  `pepper` INTEGER NULL DEFAULT NULL,
+  `ingredient` INTEGER NULL DEFAULT NULL,
+  `rub_Recipe` MEDIUMTEXT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- ---
+-- Foreign Keys 
+-- ---
+
+ALTER TABLE `Journal` ADD FOREIGN KEY (title) REFERENCES `Recipe` (`title`);
+ALTER TABLE `RubRecipe` ADD FOREIGN KEY (rub_Recipe) REFERENCES `Recipe` (`rub`);
+
+-- ---
+-- Table Properties
+-- ---
+
+-- ALTER TABLE `Journal` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE `Recipe` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE `RubRecipe` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ---
+-- Test Data
+-- ---
+
+-- INSERT INTO `Journal` (`id`,`title`,`day`,`notes`) VALUES
+-- ('','','','');
+-- INSERT INTO `Recipe` (`id`,`title`,`meat`,`cooker`,`temp`,`cook_time`,`rub`) VALUES
+-- ('','','','','','','');
+-- INSERT INTO `RubRecipe` (`id`,`salt`,`sugar`,`pepper`,`ingredient`,`rub_Recipe`) VALUES
+-- ('','','','','','');
